@@ -22,7 +22,7 @@ class Vertex():
 	def get_name(self, name):
 		"Get a vertex name"
 
-		resturn self.__name
+		return self.__name
 
 	def set_value(self, value):
 		"Set a vertex value"
@@ -32,4 +32,4 @@ class Vertex():
 	def get_value(self, value):
 		"Get a vertex value"
 
-		resturn self.__value
+		return self.__value
