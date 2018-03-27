@@ -3,7 +3,7 @@
 '''
 
 
-class Edge():
+class Edge(object):
 	"Class to store a edges's info"
 
 	def __init__(self, source, destination, label=None, value=None):
@@ -51,3 +51,4 @@ class Edge():
 		"Get a edge destination"
 
 		return self.__destination
+		
