@@ -6,11 +6,12 @@
 class Graph(object):
     "Class to store a edges's array and a vertex's dictionary"
 
-    def __init__(self):
-        self.__edges = {}  # dicionario de tuplas.. (no source, no dest)
+    def __init__(self, directed=false):
+        self.__edges = {}  # tupla diccionary (no source, no dest)
         self.__adjacent_list = {}
+        self.__directed = directed
 
-    def add_edge(self, edge, directed=False):
+    def add_edge(self, edge):
         "Add a new edge to the graph"
 
         # insert source
@@ -25,7 +26,7 @@ class Graph(object):
         self.__adjacent_list[edge.get_source()].append(edge.get_destination())
 
         # if not directed.. do the same with the other node
-        if not directed:
+        if not self.directed:
             self.__edges[(edge.get_destination(), edge.get_source())] = edge
             self.__adjacent_list[edge.get_destination()].append(
                 edge.get_source())
@@ -34,16 +35,33 @@ class Graph(object):
         "Remove a edge from the graph"
 
         # Remove vertex from the adjacent_list
+        self.__adjacent_list[edge_to_remove.get_source()].remove(edge_to_remove.get_destination())
         self.__edges.pop(
             (edge_to_remove.get_source(), edge_to_remove.get_destination())
         )
+        if not self.__directed:
+            self.__adjacent_list[edge_to_remove.get_destination()].remove(edge_to_remove.get_source())
+            self.__edges.pop(
+                (edge_to_remove.get_destination(), edge_to_remove.get_source())
+            )
+
 
     def add_vertex(self, new_vertex):
         "Add a new vertex to the graph"
 
         self.__adjacent_list[new_vertex] = []
 
-    # Remove vertex from the adjacent_list (remove from edge list to)
+    def remove_vertex(self, vertex_to_remove):
+        "Remove a vertex and they edges"
+
+        for key in self.__adjacent_list:
+            if vertex_to_remove in self.__adjacent_list[key]:
+                self.__adjacent_list[key].remove(vertex_to_remove)
+        self.__adjacent_list.pop(vertex_to_remove, None)
+        for key in self.__edges:
+            if vertex_to_remove in key:
+                self.__edges.pop(key, None)
+
 
     def get_edge_from_souce_destination(self, source, destination):
         "Get a edge from a source and a destination node"
