@@ -34,7 +34,6 @@ class Graph(object):
     def remove_edge(self, edge_to_remove):
         "Remove a edge from the graph"
 
-        # Remove vertex from the adjacent_list
         self.__adjacent_list[edge_to_remove.get_source()].remove(edge_to_remove.get_destination())
         self.__edges.pop(
             (edge_to_remove.get_source(), edge_to_remove.get_destination())
