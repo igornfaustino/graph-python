@@ -37,9 +37,7 @@ class Graph(object):
     def remove_edge(self, edge_to_remove):
         "Remove a edge from the graph"
 
-        # Remove vertex from the adjacent_list
-        self.__adjacent_list[edge_to_remove.get_source()].remove(
-            edge_to_remove.get_destination())
+        self.__adjacent_list[edge_to_remove.get_source()].remove(edge_to_remove.get_destination())
         self.__edges.pop(
             (edge_to_remove.get_source(), edge_to_remove.get_destination())
         )
@@ -76,7 +74,7 @@ class Graph(object):
 
         print(self.__adjacent_list)
     
-    def erdos_number(self, initial_vertex):
+    def breadth_search(self, initial_vertex):
         "for a while, only a bfs"
          for key in self.__adjacent_list:
              if key != initial_vertex:
@@ -90,3 +88,11 @@ class Graph(object):
          q.put(initial_vertex) #enfileiro o mocinho inicial
          #falta fazer toda parte de ir desinfileirando e trocando a cor dos mocinhos vertices
 
+
+    def degree_vertex(self, vertex):
+        in=0
+        out = len(self.__adjacent_list[vertex])
+        for key in self.__adjacent_list:
+            if vertex in self.__adjacent_list[key]:
+                in = in +1
+        return out + in
