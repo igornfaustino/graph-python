@@ -2,6 +2,7 @@
     Graph Class
 '''
 
+from queue import *
 
 class Graph(object):
     "Class to store a edges's array and a vertex's dictionary"
@@ -10,6 +11,8 @@ class Graph(object):
         self.__edges = {}  # tupla diccionary (no source, no dest)
         self.__adjacent_list = {}
         self.__directed = directed
+        self.__distance = [] #guarda a distancia entre os vertices (bfs)
+        self.__predecessors = [] #predecessores do vertex [bfs]
 
     def add_edge(self, edge):
         "Add a new edge to the graph"
@@ -72,3 +75,18 @@ class Graph(object):
         "Print the adjacent list"
 
         print(self.__adjacent_list)
+    
+    def erdos_number(self, initial_vertex):
+        "for a while, only a bfs"
+         for key in self.__adjacent_list:
+             if key != initial_vertex:
+                 key.set_color(0) #seta cor branca p/ todos, menos o vertex inicial
+                 distance[key] = sys.maxint
+                 predecessors[key] = None
+         
+         initial_vertex.set_color(1) # seta cor do initial_vertex p cinza
+         distance[initial_vertex] = 0
+         q = queue.Queue()
+         q.put(initial_vertex) #enfileiro o mocinho inicial
+         #falta fazer toda parte de ir desinfileirando e trocando a cor dos mocinhos vertices
+
