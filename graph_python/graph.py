@@ -72,9 +72,16 @@ class Graph(object):
         print(self.__adjacent_list)
 
     def degree_vertex(self, vertex):
+        "Get the degree of a vertex"
+
         in=0
         out = len(self.__adjacent_list[vertex])
         for key in self.__adjacent_list:
             if vertex in self.__adjacent_list[key]:
                 in = in +1
         return out + in
+
+    def adjacents_vertex(self, vertex):
+        "Get the list of adjacents from a vertex"
+
+        return self.__adjacent_list[vertex]
