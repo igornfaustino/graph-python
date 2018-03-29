@@ -88,7 +88,6 @@ class Graph(object):
          q.put(initial_vertex) #enfileiro o mocinho inicial
          #falta fazer toda parte de ir desinfileirando e trocando a cor dos mocinhos vertices
 
-
     def degree_vertex(self, vertex):
         "Get the degree of a vertex"
 
