@@ -2,7 +2,9 @@
     Graph Class
 '''
 
-from queue import *
+import queue
+import sys
+
 
 class Graph(object):
     "Class to store a edges's array and a vertex's dictionary"
@@ -11,8 +13,8 @@ class Graph(object):
         self.__edges = {}  # tupla diccionary (no source, no dest)
         self.__adjacent_list = {}
         self.__directed = directed
-        self.__distance = [] #guarda a distancia entre os vertices (bfs)
-        self.__predecessors = [] #predecessores do vertex [bfs]
+        self.__distance = []  # guarda a distancia entre os vertices (bfs)
+        self.__predecessors = []  # predecessores do vertex [bfs]
 
     def add_edge(self, edge):
         "Add a new edge to the graph"
@@ -37,7 +39,8 @@ class Graph(object):
     def remove_edge(self, edge_to_remove):
         "Remove a edge from the graph"
 
-        self.__adjacent_list[edge_to_remove.get_source()].remove(edge_to_remove.get_destination())
+        self.__adjacent_list[edge_to_remove.get_source()].remove(
+            edge_to_remove.get_destination())
         self.__edges.pop(
             (edge_to_remove.get_source(), edge_to_remove.get_destination())
         )
@@ -73,32 +76,67 @@ class Graph(object):
         "Print the adjacent list"
 
         print(self.__adjacent_list)
-    
+
+    def get_order(self):
+        "Return o order of the graph"
+
+        return len(self.__adjacent_list)
+
+    def get_vertex(self):
+        "Return all the vertex on the graph"
+
+        vertex = []
+        for key in self.__adjacent_list:
+            vertex.append(key)
+
+        return vertex
+
+    def get_edges(self):
+        "Return all the edges on the graph"
+
+        edges = []
+        for key in self.__edges:
+            if (self.__edges[key] not in edges):
+                edges.append(self.__edges[key])
+
+        return edges
+
     def breadth_search(self, initial_vertex):
         "for a while, only a bfs"
-         for key in self.__adjacent_list:
-             if key != initial_vertex:
-                 key.set_color(0) #seta cor branca p/ todos, menos o vertex inicial
-                 distance[key] = sys.maxint
-                 predecessors[key] = None
-         
-         initial_vertex.set_color(1) # seta cor do initial_vertex p cinza
-         distance[initial_vertex] = 0
-         q = queue.Queue()
-         q.put(initial_vertex) #enfileiro o mocinho inicial
-         #falta fazer toda parte de ir desinfileirando e trocando a cor dos mocinhos vertices
+        for key in self.__adjacent_list:
+            if key != initial_vertex:
+                # seta cor branca p/ todos, menos o vertex inicial
+                key.set_color(0)
+                self.__distance[key] = sys.maxint
+                self.__predecessors[key] = None
+
+        initial_vertex.set_color(1)  # seta cor do initial_vertex p cinza
+        self.__distance[initial_vertex] = 0
+        q = queue.Queue()
+        q.put(initial_vertex)  # enfileiro o mocinho inicial
 
     def degree_vertex(self, vertex):
         "Get the degree of a vertex"
 
-        in=0
-        out = len(self.__adjacent_list[vertex])
-        for key in self.__adjacent_list:
+        inVertex = 0
+        outVertex = len(self.__adjacent_list[vertex])
+        for key in self.__adjacent_list:s
             if vertex in self.__adjacent_list[key]:
-                in = in +1
-        return out + in
+                inVertex = inVertex + 1
+        return outVertex + inVertex
 
     def adjacents_vertex(self, vertex):
         "Get the list of adjacents from a vertex"
 
         return self.__adjacent_list[vertex]
+
+    def is_completed(self):
+        for vertex in self.__adjacent_list:
+            for key in self.__adjacent_list:
+                if vertex != key:
+                    if vertex not in self.__adjacent_list[key]:
+                        return False
+        return True
+
+    def is_connected(self):
+        
