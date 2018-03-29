@@ -98,11 +98,8 @@ class Graph(object):
             if vertex in self.__adjacent_list[key]:
                 in = in +1
         return out + in
-<<<<<<< HEAD
 
     def adjacents_vertex(self, vertex):
         "Get the list of adjacents from a vertex"
 
         return self.__adjacent_list[vertex]
-=======
->>>>>>> dd0f96e5149785be49c691221f736424c1ae2a1c
