@@ -13,8 +13,8 @@ class Graph(object):
         self.__edges = {}  # tupla diccionary (no source, no dest)
         self.__adjacent_list = {}
         self.__directed = directed
-        self.__distance = []  # guarda a distancia entre os vertices (bfs)
-        self.__predecessors = []  # predecessores do vertex [bfs]
+        self.__distance = {}  # guarda a distancia entre os vertices (bfs)
+        self.__predecessors = {}  # predecessores do vertex [bfs]
 
     def add_edge(self, edge):
         "Add a new edge to the graph"
@@ -102,18 +102,27 @@ class Graph(object):
         return edges
 
     def breadth_search(self, initial_vertex):
-        "for a while, only a bfs"
         for key in self.__adjacent_list:
             if key != initial_vertex:
                 # seta cor branca p/ todos, menos o vertex inicial
                 key.set_color(0)
-                self.__distance[key] = sys.maxint
+                self.__distance[key]     = sys.maxint
                 self.__predecessors[key] = None
 
         initial_vertex.set_color(1)  # seta cor do initial_vertex p cinza
         self.__distance[initial_vertex] = 0
         q = queue.Queue()
         q.put(initial_vertex)  # enfileiro o mocinho inicial
+
+        while not q.empty(): #enquanto a fila não estiver vazia
+            vertex = q.get()
+            for v in self.__adjacent_list[vertex]:
+                if v.get_color() == 0: #igual a branco
+                    v.set_color(1) #seta p/ cinza
+                    self.__distance[v]     = distance[vertex] + 1
+                    self.__predecessors[v] = vertex
+                    q.put(vertex,v)
+            vertex.set_color(2) #seta p/ preto
 
     def degree_vertex(self, vertex):
         "Get the degree of a vertex"
