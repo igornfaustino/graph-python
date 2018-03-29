@@ -129,7 +129,7 @@ class Graph(object):
 
         inVertex = 0
         outVertex = len(self.__adjacent_list[vertex])
-        for key in self.__adjacent_list:
+        for key in self.__adjacent_list:s
             if vertex in self.__adjacent_list[key]:
                 inVertex = inVertex + 1
         return outVertex + inVertex
@@ -138,3 +138,14 @@ class Graph(object):
         "Get the list of adjacents from a vertex"
 
         return self.__adjacent_list[vertex]
+
+    def is_completed(self):
+        for vertex in self.__adjacent_list:
+            for key in self.__adjacent_list:
+                if vertex != key:
+                    if vertex not in self.__adjacent_list[key]:
+                        return False
+        return True
+
+    def is_connected(self):
+        
