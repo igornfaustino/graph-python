@@ -6,9 +6,10 @@
 class Vertex(object):
     "Class to store a vertex's info"
 
-    def __init__(self, name, value=None):
+    def __init__(self, name, value=None, color=None):
         self.__name = name
         self.__value = value
+        self.__color = color
 
     def __hash__(self):
         "Redefined __hash__ to use this object as a key in a dictionary"
@@ -44,3 +45,13 @@ class Vertex(object):
         "Get a vertex value"
 
         return self.__value
+    
+    def set_color(self, color):
+        "Set a vertex color"
+
+        self.__color = color
+    
+    def get_color(self):
+        "Get a vertex color"
+        
+        return self.__color
