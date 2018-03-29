@@ -137,6 +137,3 @@ class Graph(object):
                     if vertex not in self.__adjacent_list[key]:
                         return False
         return True
-
-    def is_connected(self):
-        
