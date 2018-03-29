@@ -72,3 +72,27 @@ class Graph(object):
         "Print the adjacent list"
 
         print(self.__adjacent_list)
+
+    def get_order(self):
+        "Return o order of the graph"
+
+        return len(self.__adjacent_list)
+
+    def get_vertex(self):
+        "Return all the vertex on the graph"
+
+        vertex = []
+        for key in self.__adjacent_list:
+            vertex.append(key)
+
+        return vertex
+
+    def get_edges(self):
+        "Return all the edges on the graph"
+
+        edges = []
+        for key in self.__edges:
+            if (self.__edges[key] not in edges):
+                edges.append(self.__edges[key])
+
+        return edges
