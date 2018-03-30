@@ -4,6 +4,8 @@
 
 import queue
 import sys
+import vertex
+import edge
 
 
 class Graph(object):
@@ -16,25 +18,30 @@ class Graph(object):
         self.__distance = {}  # guarda a distancia entre os vertices (bfs)
         self.__predecessors = {}  # predecessores do vertex [bfs]
 
-    def add_edge(self, edge):
+    def add_edge(self, source, destination, label=None, value=None):
         "Add a new edge to the graph"
 
+        new_edge = edge.Edge(source, destination, label=None, value=None)
+
         # insert source
-        if edge.get_source() not in self.__adjacent_list:
-            self.__adjacent_list[edge.get_source()] = []
+        if new_edge.get_source() not in self.__adjacent_list:
+            self.__adjacent_list[new_edge.get_source()] = []
         # insert destination
-        if edge.get_destination() not in self.__adjacent_list:
-            self.__adjacent_list[edge.get_destination()] = []
+        if new_edge.get_destination() not in self.__adjacent_list:
+            self.__adjacent_list[new_edge.get_destination()] = []
 
         # insert edge and update adjacent list
-        self.__edges[(edge.get_source(), edge.get_destination())] = edge
-        self.__adjacent_list[edge.get_source()].append(edge.get_destination())
+        self.__edges[(new_edge.get_source(),
+                      new_edge.get_destination())] = new_edge
+        self.__adjacent_list[new_edge.get_source()].append(
+            new_edge.get_destination())
 
         # if not directed.. do the same with the other node
-        if not self.directed:
-            self.__edges[(edge.get_destination(), edge.get_source())] = edge
-            self.__adjacent_list[edge.get_destination()].append(
-                edge.get_source())
+        if not self.__directed:
+            self.__edges[(new_edge.get_destination(),
+                          new_edge.get_source())] = new_edge
+            self.__adjacent_list[new_edge.get_destination()].append(
+                new_edge.get_source())
 
     def remove_edge(self, edge_to_remove):
         "Remove a edge from the graph"
@@ -51,10 +58,21 @@ class Graph(object):
                 (edge_to_remove.get_destination(), edge_to_remove.get_source())
             )
 
-    def add_vertex(self, new_vertex):
+    def add_vertex(self, name, value=None):
         "Add a new vertex to the graph"
 
+        for key in self.__adjacent_list:
+            if key.get_name() == name:
+                return
+
+        new_vertex = vertex.Vertex(name, value=None)
         self.__adjacent_list[new_vertex] = []
+
+    def get_vertex(self, name):
+        for key in self.__adjacent_list:
+            if key.get_name() == name:
+                return key
+        return None
 
     def remove_vertex(self, vertex_to_remove):
         "Remove a vertex and they edges"
@@ -82,7 +100,7 @@ class Graph(object):
 
         return len(self.__adjacent_list)
 
-    def get_vertex(self):
+    def get_all_vertex(self):
         "Return all the vertex on the graph"
 
         vertex = []
@@ -106,7 +124,7 @@ class Graph(object):
             if key != initial_vertex:
                 # seta cor branca p/ todos, menos o vertex inicial
                 key.set_color(0)
-                self.__distance[key]     = sys.maxint
+                self.__distance[key] = sys.maxint
                 self.__predecessors[key] = None
 
         initial_vertex.set_color(1)  # seta cor do initial_vertex p cinza
@@ -114,22 +132,22 @@ class Graph(object):
         q = queue.Queue()
         q.put(initial_vertex)  # enfileiro o mocinho inicial
 
-        while not q.empty(): #enquanto a fila não estiver vazia
+        while not q.empty():  # enquanto a fila nao estiver vazia
             vertex = q.get()
             for v in self.__adjacent_list[vertex]:
-                if v.get_color() == 0: #igual a branco
-                    v.set_color(1) #seta p/ cinza
-                    self.__distance[v]     = distance[vertex] + 1
+                if v.get_color() == 0:  # igual a branco
+                    v.set_color(1)  # seta p/ cinza
+                    self.__distance[v] = self.__distance[vertex] + 1
                     self.__predecessors[v] = vertex
-                    q.put(vertex,v)
-            vertex.set_color(2) #seta p/ preto
+                    q.put(vertex, v)
+            vertex.set_color(2)  # seta p/ preto
 
     def degree_vertex(self, vertex):
         "Get the degree of a vertex"
 
         inVertex = 0
         outVertex = len(self.__adjacent_list[vertex])
-        for key in self.__adjacent_list:s
+        for key in self.__adjacent_list:
             if vertex in self.__adjacent_list[key]:
                 inVertex = inVertex + 1
         return outVertex + inVertex
@@ -140,9 +158,20 @@ class Graph(object):
         return self.__adjacent_list[vertex]
 
     def is_completed(self):
-        for vertex in self.__adjacent_list:
+        for node in self.__adjacent_list:
             for key in self.__adjacent_list:
-                if vertex != key:
-                    if vertex not in self.__adjacent_list[key]:
+                if node != key:
+                    if node not in self.__adjacent_list[key]:
                         return False
         return True
+
+
+if __name__ == '__main__':
+    graph = Graph()
+    graph.add_vertex('teste')
+    graph.add_vertex('teste')
+    graph.add_vertex('teste2')
+    graph.add_edge(graph.get_vertex('teste'), graph.get_vertex('teste2'))
+    print(graph.adjacents_vertex(graph.get_vertex('teste')))
+    print(graph.get_order())
+    graph.print_adjacent_list()
