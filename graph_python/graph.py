@@ -3,7 +3,6 @@
 '''
 
 import queue
-import sys
 import vertex
 import edge
 
@@ -23,25 +22,27 @@ class Graph(object):
 
         new_edge = edge.Edge(source, destination, label=None, value=None)
 
-        # insert source
-        if new_edge.get_source() not in self.__adjacent_list:
-            self.__adjacent_list[new_edge.get_source()] = []
-        # insert destination
-        if new_edge.get_destination() not in self.__adjacent_list:
-            self.__adjacent_list[new_edge.get_destination()] = []
+        if destination not in self.__adjacent_list[source]:
+            # insert source
+            if new_edge.get_source() not in self.__adjacent_list:
+                self.__adjacent_list[new_edge.get_source()] = []
+            # insert destination
+            if new_edge.get_destination() not in self.__adjacent_list:
+                self.__adjacent_list[new_edge.get_destination()] = []
 
-        # insert edge and update adjacent list
-        self.__edges[(new_edge.get_source(),
-                      new_edge.get_destination())] = new_edge
-        self.__adjacent_list[new_edge.get_source()].append(
-            new_edge.get_destination())
+            # insert edge and update adjacent list
+            self.__edges[(new_edge.get_source(),
+                          new_edge.get_destination())] = new_edge
+            self.__adjacent_list[new_edge.get_source()].append(
+                new_edge.get_destination())
 
         # if not directed.. do the same with the other node
         if not self.__directed:
-            self.__edges[(new_edge.get_destination(),
-                          new_edge.get_source())] = new_edge
-            self.__adjacent_list[new_edge.get_destination()].append(
-                new_edge.get_source())
+            if source not in self.__adjacent_list[destination]:
+                self.__edges[(new_edge.get_destination(),
+                              new_edge.get_source())] = new_edge
+                self.__adjacent_list[new_edge.get_destination()].append(
+                    new_edge.get_source())
 
     def remove_edge(self, edge_to_remove):
         "Remove a edge from the graph"
@@ -124,7 +125,7 @@ class Graph(object):
             if key != initial_vertex:
                 # seta cor branca p/ todos, menos o vertex inicial
                 key.set_color(0)
-                self.__distance[key] = sys.maxint
+                self.__distance[key] = float("inf")
                 self.__predecessors[key] = None
 
         initial_vertex.set_color(1)  # seta cor do initial_vertex p cinza
@@ -134,13 +135,16 @@ class Graph(object):
 
         while not q.empty():  # enquanto a fila nao estiver vazia
             vertex = q.get()
+
             for v in self.__adjacent_list[vertex]:
                 if v.get_color() == 0:  # igual a branco
                     v.set_color(1)  # seta p/ cinza
                     self.__distance[v] = self.__distance[vertex] + 1
                     self.__predecessors[v] = vertex
-                    q.put(vertex, v)
+                    q.put(v)
             vertex.set_color(2)  # seta p/ preto
+
+        return self.__distance
 
     def degree_vertex(self, vertex):
         "Get the degree of a vertex"
