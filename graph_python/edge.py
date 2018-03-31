@@ -12,6 +12,24 @@ class Edge(object):
         self.__source = source
         self.__destination = destination
 
+    def __str__(self):
+        "Value to use when call the function print"
+
+        if self.__label:
+            return self.__label
+        else:
+            return (self.__source.get_name() + " - " +
+                    self.__destination.get_name())
+
+    def __repr__(self):
+        "Value to use when use repr()"
+
+        if self.__label:
+            return self.__label
+        else:
+            return (self.__source.get_name() + " - " +
+                    self.__destination.get_name())
+
     def set_label(self, label):
         "Set a edge label"
 
