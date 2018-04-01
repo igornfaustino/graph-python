@@ -230,6 +230,11 @@ class Graph(object):
                 self.__distance[key] = float("inf")
                 self.__predecessors[key] = None
 
+        # if the initial_vertex is not a valid one,
+        # all the vertex will have distance equals to infinity
+        if not initial_vertex:
+            return self.__distance
+
         initial_vertex.set_color(1)  # inital vertex color to grey
         self.__distance[initial_vertex] = 0
         q = queue.Queue()
