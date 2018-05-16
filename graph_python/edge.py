@@ -6,7 +6,7 @@
 class Edge(object):
     "Class to store a edges's info"
 
-    def __init__(self, source, destination, label=None, value=None):
+    def __init__(self, source, destination, label=None, value=1):
         self.__label = label
         self.__value = value
         self.__source = source

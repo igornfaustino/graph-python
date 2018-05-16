@@ -5,6 +5,7 @@
 import queue
 import vertex
 import edge
+import graph_utils
 
 
 class Graph(object):
@@ -24,7 +25,7 @@ class Graph(object):
 
     # edge function
     # start here
-    def add_edge(self, source, destination, label=None, value=None):
+    def add_edge(self, source, destination, label=None, value=1):
         """add a new connetion to the graph
 
         connects two vertex, if the graph is directed, this connection leaves
@@ -252,6 +253,43 @@ class Graph(object):
             vertex.set_color(2)  # color to black
 
         return self.__distance
+
+    def dijkistra(self, initial_vertex):
+        for key in self.__adjacent_list:
+            if key != initial_vertex:
+                self.__distance[key] = float("inf")
+                self.__predecessors[key] = None
+        self.__distance[initial_vertex] = 0
+        nodes = list(self.__adjacent_list.keys())
+        while len(nodes) != 0:
+            node = graph_utils.get_min(nodes, self.__distance)
+            for adjacent in self.__adjacent_list[node]:
+                value = (self.__distance[node] +
+                         self.get_edge_from_souce_destination(node, adjacent)
+                         .get_value())
+                if (self.__distance[adjacent] > value):
+                    self.__distance[adjacent] = value
+                    self.__predecessors[adjacent] = node
+        return self.__distance
+
+    def in_degree_vertex(self, vertex):
+        """Get the in degree of a vertex
+
+        Args:
+            vertex (Vertex): vertex you want know the degree
+
+        Returns:
+            integer: in degree of a vertex
+        """
+
+        if self.__directed:
+            inVertex = 0
+            for key in self.__adjacent_list:
+                if vertex in self.__adjacent_list[key]:
+                    inVertex = inVertex + 1
+            return inVertex
+        else:
+            return len(self.__adjacent_list[vertex])
 
     def degree_vertex(self, vertex):
         """Get the degree of a vertex
