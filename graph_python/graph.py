@@ -20,9 +20,13 @@ class Graph(object):
         self.__edges = {}  # tupla diccionary (no source, no dest)
         self.__adjacent_list = {}
         self.__directed = directed
+
         self.__distance = {}  # guarda a distancia entre os vertices (bfs)
         self.__predecessors = {}  # predecessores do vertex [bfs]
 
+        self.__firstSee = {}
+        self.__close = {}
+        self.__time = 0
     # edge function
     # start here
     def add_edge(self, source, destination, label=None, value=1):
@@ -253,6 +257,35 @@ class Graph(object):
             vertex.set_color(2)  # color to black
 
         return self.__distance
+
+    def __dfs_visit(self, vertex):
+        self.__time = self.__time + 1
+        self.__firstSee[vertex] = self.__time
+        vertex.set_color(1)
+
+        for adjacent in self.__adjacent_list[vertex]:
+            if adjacent.get_color() == 0:
+                self.__predecessors[adjacent] = vertex
+                self.__dfs_visit(adjacent)
+        vertex.set_color(2)
+        self.__time += 1
+        self.__close[vertex] = self.__time
+
+    def deep_first_search(self):
+        # colors:
+        #   white: not visited
+        #   grey: in the queue
+        #   black: nothing more to do
+        for key in self.__adjacent_list:
+            # set color for all vertices to white
+            key.set_color(0)
+            self.__predecessors[key] = None
+        self.__time = 0
+        for key in self.__adjacent_list:
+            if key.get_color() == 0:
+                self.__dfs_visit(key)
+
+        return self.__firstSee, self.__close, self.__predecessors
 
     def dijkistra(self, initial_vertex):
         for key in self.__adjacent_list:
