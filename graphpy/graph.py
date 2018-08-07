@@ -297,7 +297,7 @@ if __name__ == '__main__':
     print(graph.adjacents_vertex(graph.get_vertex('teste')))
     print(graph.get_order())
     print(graph.get_all_edges())
-    print(graph.search(BFSstrategy(graph.get_vertex('teste'))))
+    print(graph.search('oi'))
     myEdge = graph.get_edge_from_souce_destination(
         graph.get_vertex('teste'), graph.get_vertex('teste2'))
     graph.remove_vertex(graph.get_vertex('teste'))
