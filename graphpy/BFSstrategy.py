@@ -1,5 +1,6 @@
 import sys
 from search_strategy import SearchStrategy
+import vertex
 if sys.version_info >= (3, 0):
     import queue
 else:
@@ -8,6 +9,9 @@ else:
 
 class BFSstrategy(SearchStrategy):
     def __init__(self, initial_vertex):
+        if not isinstance(initial_vertex, vertex.Vertex):
+            raise TypeError("initial_vertex must be of type 'Vertex'")
+
         self.__initial_vertex = initial_vertex
         self.__distance = {}
         self.__predecessors = {}
@@ -25,6 +29,8 @@ class BFSstrategy(SearchStrategy):
             Dict: dictionaty with the key as the vertex and the body
                 the distance from the initial vertex
         """
+        if self.__initial_vertex not in self.get_adjacent_list():
+            raise ValueError("initial_vertex not found in the graph")
 
         # colors:
         #   white: not visited
