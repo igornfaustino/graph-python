@@ -24,6 +24,8 @@ class Graph(object):
         self.__distance = {}  # guarda a distancia entre os vertices (bfs)
         self.__predecessors = {}  # predecessores do vertex [bfs]
 
+    # Validate types
+
     def __check_vertex(self, vtx, field):
         if not isinstance(vtx, vertex.Vertex):
             raise TypeError(field + " must be of type 'Vertex'")
@@ -35,6 +37,14 @@ class Graph(object):
             raise TypeError(field + " must be of type 'Edge'")
         if edg not in self.__edges.values():
             raise ValueError(field + " not found in the graph")
+
+    # Operators overloading
+
+    def __len__(self):
+        return len(self.__adjacent_list)
+
+    def __getitem__(self, vtx_name):
+        return self.get_vertex(vtx_name)
 
     # edge function
     # start here
@@ -321,10 +331,11 @@ if __name__ == '__main__':
     graph.add_vertex('teste1')
     graph.add_vertex('teste2')
     graph.add_edge(graph.get_vertex('teste'), graph.get_vertex('teste2'))
-    print(graph.search(BFSstrategy(graph.get_vertex('teste'))))
+    print(graph.search(BFSstrategy(graph['teste'])))
     print(graph.adjacents_vertex(graph.get_vertex('teste')))
     print(graph.get_order())
     print(graph.get_all_edges())
+    print("len:", len(graph))
     myEdge = graph.get_edge_from_souce_destination(
         graph.get_vertex('teste'), graph.get_vertex('teste2'))
     graph.remove_edge(myEdge)
