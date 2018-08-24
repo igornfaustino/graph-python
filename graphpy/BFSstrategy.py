@@ -1,6 +1,6 @@
 import sys
-from search_strategy import SearchStrategy
-import vertex
+from graphpy.search_strategy import SearchStrategy
+import graphpy.vertex as vertex
 if sys.version_info >= (3, 0):
     import queue
 else:

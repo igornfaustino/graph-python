@@ -1,4 +1,4 @@
-from search_strategy import SearchStrategy
+from graphpy.search_strategy import SearchStrategy
 
 
 class DFSstrategy(SearchStrategy):

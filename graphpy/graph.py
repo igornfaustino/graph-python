@@ -2,10 +2,10 @@
     Graph Class
 '''
 
-import vertex
-import edge
-import graph_utils
-from search_strategy import SearchStrategy
+import graphpy.vertex as vertex
+import graphpy.edge as edge
+import graphpy.graph_utils as graph_utils
+from graphpy.search_strategy import SearchStrategy
 
 
 class Graph(object):
@@ -31,7 +31,7 @@ class Graph(object):
             raise TypeError(field + " must be of type 'Vertex'")
         if vtx not in self.__adjacent_list.keys():
             raise ValueError(field + " not found in the graph")
-    
+
     def __check_edge(self, edg, field):
         if not isinstance(edg, edge.Edge):
             raise TypeError(field + " must be of type 'Edge'")
@@ -45,6 +45,12 @@ class Graph(object):
 
     def __getitem__(self, vtx_name):
         return self.get_vertex(vtx_name)
+
+    def __str__(self):
+        return str(self.__adjacent_list)
+
+    def __repr__(self):
+        return str(self.__adjacent_list)
 
     # edge function
     # start here
@@ -331,14 +337,15 @@ if __name__ == '__main__':
     graph.add_vertex('teste1')
     graph.add_vertex('teste2')
     graph.add_edge(graph.get_vertex('teste'), graph.get_vertex('teste2'))
-    print(graph.search(BFSstrategy(graph['teste'])))
-    print(graph.adjacents_vertex(graph.get_vertex('teste')))
-    print(graph.get_order())
-    print(graph.get_all_edges())
-    print("len:", len(graph))
-    myEdge = graph.get_edge_from_souce_destination(
-        graph.get_vertex('teste'), graph.get_vertex('teste2'))
-    graph.remove_edge(myEdge)
-    graph.remove_vertex(graph.get_vertex('teste'))
-    print(graph.get_all_edges())
-    graph.print_adjacent_list()
+    print(graph)
+    # print(graph.search(BFSstrategy(graph['teste'])))
+    # print(graph.adjacents_vertex(graph.get_vertex('teste')))
+    # print(graph.get_order())
+    # print(graph.get_all_edges())
+    # print("len:", len(graph))
+    # myEdge = graph.get_edge_from_souce_destination(
+    #     graph.get_vertex('teste'), graph.get_vertex('teste2'))
+    # graph.remove_edge(myEdge)
+    # graph.remove_vertex(graph.get_vertex('teste'))
+    # print(graph.get_all_edges())
+    # graph.print_adjacent_list()
